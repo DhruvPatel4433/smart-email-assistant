@@ -2,11 +2,14 @@ import streamlit as st
 import pickle
 import os
 import json
+from dotenv import load_dotenv
 from datetime import datetime
 from crewai import Agent, Task, Crew
 from crewai.tools import tool
 from crewai.llm import LLM
 from openai import OpenAI
+
+_ = load_dotenv()
 
 client = OpenAI(
     base_url="https://integrate.api.nvidia.com/v1",
@@ -19,9 +22,9 @@ llm = LLM(
     api_key=os.environ["NVIDIA_API_KEY"]
 )
 
-with open("email_classifier_model.pkl", "rb") as f:
+with open("models/email_classifier_model.pkl", "rb") as f:
     model = pickle.load(f)
-with open("email_vectorizer.pkl", "rb") as f:
+with open("models/email_vectorizer.pkl", "rb") as f:
     vectorizer = pickle.load(f)
 
 @tool("classify_email")
